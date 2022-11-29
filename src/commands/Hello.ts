@@ -1,5 +1,6 @@
-import { ApplicationCommandType, Client, CommandInteraction } from 'discord.js'
+import { ApplicationCommandType, Client, CommandInteraction, EmbedType } from 'discord.js'
 import { Command } from '../Command'
+import wait from '../helpers/Wait'
 
 export const Hello: Command = {
     name: 'hello',
@@ -7,11 +8,11 @@ export const Hello: Command = {
     type: ApplicationCommandType.ChatInput,
 
     run: async (client: Client, interaction: CommandInteraction) => {
-        const content = `Hello ${ interaction.member?.user.username }`
-
         await interaction.followUp({
             ephemeral: true,
-            content,
+            content: `Hello ${ interaction.member?.user.username }, ping is ${ client.ws.ping }ms`,
         })
+        await wait(5000)
+        await interaction.deleteReply()
     },
 }
